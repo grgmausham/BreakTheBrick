@@ -7,7 +7,7 @@ let context;
 //player character
 let playerWidth = 80;
 let playerHeight = 10;
-let playerVelocityX = 20;
+let playerVelocityX = 20;//board speed
 
 
 let player = {
@@ -40,12 +40,23 @@ function update() {
     context.fillStyle = "Gold";
     context.fillRect(player.x, player.y, player.width, player.height);
 }
+function outofBorder(xPosition) {
+    return (xPosition < 0 || xPosition + playerWidth > boardWidth);
+}
+
 // moves the player board on keypress
 function movePlayer(e) {
     if (e.code == "ArrowLeft") {
-        player.x -= player.velocityX;
+        let nextPlayerX = player.x - player.velocityX;
+        if (!outofBorder(nextPlayerX)) {
+            player.x = nextPlayerX;
+        }
     }
     else if (e.code == "ArrowRight") {
-        player.x += player.velocityX
+        //player.x += player.velocityX
+        let nextPlayerX = player.x + player.velocityX;
+        if (!outofBorder(nextPlayerX)) {
+            player.x = nextPlayerX;
+        }
     }
 }
