@@ -7,7 +7,7 @@ let context;
 //player character
 let playerWidth = 80;
 let playerHeight = 10;
-let playerVelocityX = 10;
+let playerVelocityX = 20;
 
 
 let player = {
@@ -34,10 +34,13 @@ window.onload = function() {
 
 function update() {
     requestAnimationFrame(update);
+    context.clearRect(0, 0, board.width, board.height)
+
+    //player board
     context.fillStyle = "Gold";
     context.fillRect(player.x, player.y, player.width, player.height);
 }
-
+// moves the player board on keypress
 function movePlayer(e) {
     if (e.code == "ArrowLeft") {
         player.x -= player.velocityX;
