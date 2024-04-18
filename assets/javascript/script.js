@@ -17,6 +17,21 @@ let player = {
     height : playerHeight,
     velocityX : playerVelocityX
 }
+//breaker,ball
+let balWidth = 15;
+let ballHeight = 15;
+let ballVelocityX = 3;
+let ballVelocityY = 3;
+
+let ball = {
+    x : boardWidth/2,
+    y : boardHeight/2,
+    width : balWidth,
+    height: ballHeight,
+    velocityX : ballVelocityX,
+    velocityY : ballVelocityY
+}
+
 window.onload = function() {
     board = document.getElementById("board")
     board.height = boardHeight
@@ -31,7 +46,7 @@ window.onload = function() {
     requestAnimationFrame(update);
     document.addEventListener("keydown", movePlayer);
 }
-
+//game loop
 function update() {
     requestAnimationFrame(update);
     context.clearRect(0, 0, board.width, board.height)
@@ -39,7 +54,14 @@ function update() {
     //player board
     context.fillStyle = "Gold";
     context.fillRect(player.x, player.y, player.width, player.height);
+
+    // creats ball in board
+    context.fillStyle = "white";
+    ball.x += ball.velocityX;
+    ball.y += ball.velocityY;
+    context.fillRect(ball.x, ball.y, ball.width, ball.height)
 }
+//prevents players from exiting the board border
 function outofBorder(xPosition) {
     return (xPosition < 0 || xPosition + playerWidth > boardWidth);
 }
