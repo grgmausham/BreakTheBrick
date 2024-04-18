@@ -4,6 +4,7 @@ let boardWidth = 500;
 let boardHeight = 500;
 let context;
 
+//player board
 
 window.onload = function() {
     board = document.getElementById("board")
