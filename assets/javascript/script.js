@@ -20,8 +20,9 @@ let player = {
 //breaker,ball
 let balWidth = 15;
 let ballHeight = 15;
+//ball initial velocity when screen loads
 let ballVelocityX = 3;
-let ballVelocityY = 3;
+let ballVelocityY = 2;
 
 let ball = {
     x : boardWidth/2,
@@ -56,10 +57,22 @@ function update() {
     context.fillRect(player.x, player.y, player.width, player.height);
 
     // creats ball in board
-    context.fillStyle = "white";
+    context.fillStyle = "black";
     ball.x += ball.velocityX;
     ball.y += ball.velocityY;
     context.fillRect(ball.x, ball.y, ball.width, ball.height)
+
+
+    //bounce the ball when comes in conatct with borders
+    if(ball.y <= 0) {
+        ball.velocityY *= -1;//if the ball touches top of game board
+    }
+    else if (ball.x <= 0 || (ball.x + ball.width) >= boardWidth) {
+        ball.velocityX *= -1;//if ball touches either side left or right side of game board
+    }
+    else if (ball.y + ball.height >= boardHeight) {
+
+    }
 }
 //prevents players from exiting the board border
 function outofBorder(xPosition) {
