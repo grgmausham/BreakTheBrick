@@ -57,7 +57,7 @@ function update() {
     context.fillRect(player.x, player.y, player.width, player.height);
 
     // creats ball in board
-    context.fillStyle = "black";
+    context.fillStyle = "white";
     ball.x += ball.velocityX;
     ball.y += ball.velocityY;
     context.fillRect(ball.x, ball.y, ball.width, ball.height)
@@ -71,7 +71,16 @@ function update() {
         ball.velocityX *= -1;//if ball touches either side left or right side of game board
     }
     else if (ball.y + ball.height >= boardHeight) {
+     //game over
+    }
 
+    //collision of ball in player board
+    if (topCollision(ball, player) || bottomCollision(ball, player)) {
+        ball.velocityY *= -1;
+    }
+    else if (leftCollision(ball, player) || rightCollision(ball, player)) {
+        ball.velocityX *= -1;
+    
     }
 }
 //prevents players from exiting the board border
@@ -94,4 +103,29 @@ function movePlayer(e) {
             player.x = nextPlayerX;
         }
     }
+}
+
+//collision between player board and ball
+function detectCollision(a, b) {
+    return a.x < b.x + b.width &&
+           a.x + a.width > b.x &&
+           a.y < b.y + b.height &&
+           a.y + a.height > b.y;
+}
+
+// detects which side of player board ball collides
+function topCollision(ball, block) {
+    return detectCollision(ball, block) && (ball.y + ball.height >= block.y);
+}
+
+function bottomCollision(ball, block) {
+    return detectCollision(ball, block) && (block.y + block.height) >= ball.y;
+}
+
+function leftCollision(ball, block) {
+    return detectCollision(ball, block) && (ball.x + ball.width) >= block.x;
+}
+
+function rightCollision(ball, block) {
+    return detectCollision(ball, block) && (block.x + block.width) >= ball.x;
 }
