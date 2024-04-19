@@ -33,6 +33,19 @@ let ball = {
     velocityY : ballVelocityY
 }
 
+//Bricks or Blocks
+let blockArray = []
+let blockWidth = 50;
+let blockHeight = 10;
+let blockColumns = 8;
+let blockRows = 3;
+//limits the total blocks per lvl
+let blockMaxRows = 10;
+let  blockCount = 0;
+
+let blockX = 15;
+let blockY = 45;
+
 window.onload = function() {
     board = document.getElementById("board")
     board.height = boardHeight
@@ -46,6 +59,9 @@ window.onload = function() {
 
     requestAnimationFrame(update);
     document.addEventListener("keydown", movePlayer);
+
+    //blocks when game loads
+    createBlocks();
 }
 //game loop
 function update() {
@@ -128,4 +144,23 @@ function leftCollision(ball, block) {
 
 function rightCollision(ball, block) {
     return detectCollision(ball, block) && (block.x + block.width) >= ball.x;
+}
+
+//blocks 
+function createBlocks() {
+    blockArray = [];
+    //columns count
+    for (let c = 0; c < blockColumns; c++) {
+        for (let r = 0; r < blockRows; r++) {
+            let block = {
+                x : blockX + c*blockWidth,
+                y : blockY + r*blockHeight,
+                width : blockHeight,
+                height : blockHeight, 
+                break : false
+            }
+            blockArray.push(block);
+        }
+    }
+    blockCount = blockArray.length;
 }
