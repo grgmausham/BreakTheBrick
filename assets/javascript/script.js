@@ -46,6 +46,12 @@ let  blockCount = 0;
 let blockX = 15;
 let blockY = 45;
 
+//score
+let score = 0;
+
+//game over
+let gameOver = false;
+
 window.onload = function() {
     board = document.getElementById("board")
     board.height = boardHeight
@@ -66,6 +72,11 @@ window.onload = function() {
 //game loop
 function update() {
     requestAnimationFrame(update);
+    //game over
+    if (gameOver) {
+        return;
+
+    }
     context.clearRect(0, 0, board.width, board.height)
 
     //player board
@@ -87,7 +98,9 @@ function update() {
         ball.velocityX *= -1;//if ball touches either side left or right side of game board
     }
     else if (ball.y + ball.height >= boardHeight) {
-     //game over
+        context.font = "25px sans-serif";
+        context.fillText("Game Over: Press Space To Restart", 50, 400);
+        gameOver = true;
     }
 
     //collision of ball in player board
@@ -108,15 +121,20 @@ function update() {
                 block.break = true;
                 ball.velocityY *= -1;
                 blockCount -= 1;
+                score += 1;
             }
             else if (leftCollision(ball, block) || rightCollision(ball,block)) {
                 block.break = true;
                 ball.velocityX *= -1;
                 blockCount -= 1;
+                score += 1;
             }
             context.fillRect(block.x, block.y, block.width, block.height);
         }
     }
+    //score
+    context.font = "20px sans-serif";
+    context.fillText(score, 10, 25);
 }
 //prevents players from exiting the board border
 function outofBorder(xPosition) {
