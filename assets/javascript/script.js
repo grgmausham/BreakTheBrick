@@ -7,7 +7,7 @@ let context;
 //player character
 let playerWidth = 80;
 let playerHeight = 10;
-let playerVelocityX = 20;//board speed
+let playerVelocityX = 10;//board speed
 
 
 let player = {
@@ -18,8 +18,8 @@ let player = {
     velocityX : playerVelocityX
 }
 //breaker,ball
-let balWidth = 15;
-let ballHeight = 15;
+let balWidth = 10;
+let ballHeight = 10;
 //ball initial velocity when screen loads
 let ballVelocityX = 3;
 let ballVelocityY = 2;
@@ -99,7 +99,7 @@ function update() {
     }
     else if (ball.y + ball.height >= boardHeight) {
         context.font = "25px sans-serif";
-        context.fillText("Game Over: Press Space To Restart", 50, 400);
+        context.fillText("Game Over: Press 'Space' To Restart", 50, 400);
         gameOver = true;
     }
 
@@ -143,6 +143,14 @@ function outofBorder(xPosition) {
 
 // moves the player board on keypress
 function movePlayer(e) {
+    //Reset the game when player losses and press 'Space' button
+    if (gameOver) {
+        if (e.code == "Space") {
+            resetGame();
+        }
+    }
+
+
     if (e.code == "ArrowLeft") {
         let nextPlayerX = player.x - player.velocityX;
         if (!outofBorder(nextPlayerX)) {
@@ -200,4 +208,27 @@ function createBlocks() {
         }
     }
     blockCount = blockArray.length;
+}
+
+//Reset game
+function resetGame() {
+    gameOver = false;
+    player = {
+        x : boardWidth/2 - playerWidth/2,
+        y : boardHeight - playerHeight - 5,
+        width : playerWidth,
+        height : playerHeight,
+        velocityX : playerVelocityX
+    }
+    ball = {
+        x : boardWidth/2,
+        y : boardHeight/2,
+        width : balWidth,
+        height: ballHeight,
+        velocityX : ballVelocityX,
+        velocityY : ballVelocityY
+    }
+    blockArray = [];
+    score = 0;
+    createBlocks();
 }
