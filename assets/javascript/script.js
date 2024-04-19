@@ -7,7 +7,7 @@ let context;
 //player character
 let playerWidth = 80;
 let playerHeight = 10;
-let playerVelocityX = 10;//board speed
+let playerVelocityX = 25;//board speed
 
 
 let player = {
@@ -38,8 +38,7 @@ let blockArray = []
 let blockWidth = 50;
 let blockHeight = 10;
 let blockColumns = 8;
-let blockRows = 3;
-//limits the total blocks per lvl
+let blockRows = 3;//limits the total blocks per lvl
 let blockMaxRows = 10;
 let  blockCount = 0;
 
@@ -54,8 +53,8 @@ let gameOver = false;
 
 window.onload = function() {
     board = document.getElementById("board")
-    board.height = boardHeight
-    board.width = boardWidth
+    board.height = boardHeight;
+    board.width = boardWidth;
     //for drawing on the board
     context = board.getContext("2d");
 
@@ -75,7 +74,6 @@ function update() {
     //game over
     if (gameOver) {
         return;
-
     }
     context.clearRect(0, 0, board.width, board.height)
 
@@ -87,8 +85,17 @@ function update() {
     context.fillStyle = "white";
     ball.x += ball.velocityX;
     ball.y += ball.velocityY;
-    context.fillRect(ball.x, ball.y, ball.width, ball.height)
+    context.fillRect(ball.x, ball.y, ball.width, ball.height);
 
+    
+    //collision of ball in player board
+     if (topCollision(ball, player) || bottomCollision(ball, player)) {
+        ball.velocityY *= -1;
+    }
+    else if (leftCollision(ball, player) || rightCollision(ball, player)) {
+        ball.velocityX *= -1;
+    
+    }
 
     //bounce the ball when comes in conatct with borders
     if(ball.y <= 0) {
@@ -103,14 +110,6 @@ function update() {
         gameOver = true;
     }
 
-    //collision of ball in player board
-    if (topCollision(ball, player) || bottomCollision(ball, player)) {
-        ball.velocityY *= -1;
-    }
-    else if (leftCollision(ball, player) || rightCollision(ball, player)) {
-        ball.velocityX *= -1;
-    
-    }
 
     //blocks
     context.fillStyle = "White";
@@ -120,14 +119,16 @@ function update() {
             if (topCollision(ball, block) || bottomCollision(ball, block)) {
                 block.break = true;
                 ball.velocityY *= -1;
-                blockCount -= 1;
                 score += 1;
+                blockCount -= 1;
+                
             }
             else if (leftCollision(ball, block) || rightCollision(ball,block)) {
                 block.break = true;
                 ball.velocityX *= -1;
-                blockCount -= 1;
                 score += 1;
+                blockCount -= 1;
+               
             }
             context.fillRect(block.x, block.y, block.width, block.height);
         }
