@@ -98,6 +98,25 @@ function update() {
         ball.velocityX *= -1;
     
     }
+
+    //blocks
+    context.fillStyle = "White";
+    for (let i = 0; i < blockArray.length; i++) {
+        let block = blockArray[i];
+        if (!block.break) {
+            if (topCollision(ball, block) || bottomCollision(ball, block)) {
+                block.break = true;
+                ball.velocityY *= -1;
+                blockCount -= 1;
+            }
+            else if (leftCollision(ball, block) || rightCollision(ball,block)) {
+                block.break = true;
+                ball.velocityX *= -1;
+                blockCount -= 1;
+            }
+            context.fillRect(block.x, block.y, block.width, block.height);
+        }
+    }
 }
 //prevents players from exiting the board border
 function outofBorder(xPosition) {
@@ -153,8 +172,8 @@ function createBlocks() {
     for (let c = 0; c < blockColumns; c++) {
         for (let r = 0; r < blockRows; r++) {
             let block = {
-                x : blockX + c*blockWidth,
-                y : blockY + r*blockHeight,
+                x : blockX + c*blockWidth + c*10,
+                y : blockY + r*blockHeight + r*10,
                 width : blockHeight,
                 height : blockHeight, 
                 break : false
